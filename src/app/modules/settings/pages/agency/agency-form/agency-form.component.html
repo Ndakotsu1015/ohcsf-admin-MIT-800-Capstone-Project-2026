@@ -1,0 +1,55 @@
+<!-- enrollment.component.html -->
+<p-toast></p-toast>
+<div class="card">
+      <form [formGroup]="agencyForm">
+          <div class="grid col-12">
+              <div class="text-xl font-medium text-primary">Agency Form</div>
+              <div class="col-12">
+                <div class="col- flex">
+
+                  <div class="col-12 md:col-6">
+                    <label for="first_name" class="block mb-2">Agency Name <span class="text-red">*</span></label>
+                    <input id="name" type="text" pInputText required formControlName="name"
+                      class="w-full" />
+                    <small class="p-error block" *ngIf="agencyForm.get('name')?.invalid &&
+                      (agencyForm.get('name')?.dirty || agencyForm.get('name')?.touched)">
+                      Agency name is required
+                    </small>
+                  </div>
+                  <div class="col-12 md:col-6">
+                    <label for="ministry_id" class="block mb-2">Ministry<span class="text-red">*</span></label>
+                    <p-dropdown required="" id="ministry_id"  [options]="ministryOptions"
+                      required placeholder="Select Ministry" formControlName="ministry_id" optionLabel="name"
+                      [style]="{'width':'100%'}" [filter]="true" optionValue="id"></p-dropdown>
+                      <small class="p-error block" *ngIf="agencyForm.get('ministry_id')?.invalid &&
+                      (agencyForm.get('ministry_id')?.dirty || agencyForm.get('ministry_id')?.touched)">
+                       Ministry is required
+                    </small>
+                    </div>
+                </div>
+              </div>
+            <hr class="border-1 border-gray-300 w-full my-3" />
+
+            <div class="col-12 flex justify-content-end gap-2">
+                <p-button
+                label="Back"
+                icon="pi pi-arrow-left"
+                styleClass="p-button-outlined"
+                routerLink="/admin/dashboard/settings/agency-list"
+                iconPos="left">
+              </p-button>
+
+              <p-button
+              label="{{ isLoading ? 'Creating...' : 'Submit' }}"
+              icon="{{ isLoading ? 'pi pi-spinner' : 'pi pi-plus' }}"
+              [iconPos]="'right'"
+              (click)="onSubmit()"
+              [disabled]="isLoading"
+              [loading]="isLoading">
+          </p-button>
+            </div>
+          </div>
+      </form>
+
+
+</div>

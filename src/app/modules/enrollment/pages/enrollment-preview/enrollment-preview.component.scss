@@ -1,0 +1,33 @@
+:host ::ng-deep {
+    .enrollment-preview-dialog {
+      .p-dialog-header {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 6px 6px 0 0;
+      }
+      
+      .p-dialog-content {
+        padding: 0;
+        border-radius: 0 0 6px 6px;
+      }
+      
+      .p-card {
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        
+        .p-card-header {
+          padding: 0;
+          border-radius: 8px 8px 0 0;
+        }
+        
+        .p-card-body {
+          padding: 1.5rem;
+        }
+      }
+      
+      .p-button {
+        border-radius: 6px;
+      }
+    }
+  }

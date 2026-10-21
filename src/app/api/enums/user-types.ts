@@ -1,0 +1,8 @@
+export enum UserTypes {
+    SUPERVISOR = 'Supervisor',
+    HUMAN_RESOURCE = 'HR',
+    HEAD_DEPARTMENT = 'HOD',
+    PERMANENT_SECRETARY = 'PS',
+    HEAD_CIVIL_SERVICE_FEDERATION = 'HOCSF',
+    CAREER_MANAGEMENT_OFFICE = 'CMO',
+}

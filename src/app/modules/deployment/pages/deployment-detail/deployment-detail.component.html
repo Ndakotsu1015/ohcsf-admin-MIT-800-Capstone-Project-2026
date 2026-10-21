@@ -1,0 +1,228 @@
+<p-toast></p-toast>
+
+<div class="px-5">
+  <div class="col-12">
+    <div class="border border-secondary ">
+      <p-toolbar class="bg-primary">
+        <ng-template pTemplate="left" class="bg-primary">
+          <h4 class="my-0 ml-2 text-white fs-2">Deployment Details</h4>
+        </ng-template>
+      </p-toolbar>
+
+      <div *ngIf="loading" class="flex justify-content-center gap-5">
+        <div>
+          <p-skeleton width="60rem" height="25rem" styleClass="m-4"/>
+          <p-skeleton width="60rem" height="10rem" styleClass="m-4"/>
+
+        </div>
+        <div class="my-4 flex flex-column gap-2">
+          <p-skeleton width="12rem" height="3rem" styleClass="mx-1"  />
+          <p-skeleton width="12rem" height="3rem" styleClass="mx-1 " />
+
+        </div>
+      </div>
+
+      <div *ngIf="!loading && deploymentData" class=" flex">
+
+        <div class="grid col-10">
+          <!-- Employee Details with Photo -->
+          <div class="col-12">
+            <p-panel header="Employee Information">
+              <div class="grid">
+                <div class="col-12 md:col-3 flex justify-content-center align-items-center">
+                  <div class="text-center">
+                    <img [src]="profile_photo + deploymentData.employee.passport_file"
+                      onerror="this.src='assets/profile.png'" alt="Employee Passport"
+                      class="border-round shadow-4" style="max-width: 180px; height: auto;" />
+                    <h3 class="mt-3 mb-1">{{ deploymentData.employee.full_name }}</h3>
+                    <p class="text-lg">{{ deploymentData.designation.name }}</p>
+                  </div>
+                </div>
+
+                <div class="col-12 md:col-9">
+                  <div class="grid">
+                    <div class="col-12 md:col-6 lg:col-4 field">
+                      <label class="block text-500 font-medium mb-2">IPPIS Number</label>
+                      <div class="text-900">{{ deploymentData.employee.ippis_no }}</div>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-4 field">
+                      <label class="block text-500 font-medium mb-2">Employee Number</label>
+                      <div class="text-900">{{ deploymentData.employee.employee_no }}</div>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-4 field">
+                      <label class="block text-500 font-medium mb-2">Gender</label>
+                      <div class="text-900">{{ deploymentData.employee.gender }}</div>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-4 field">
+                      <label class="block text-500 font-medium mb-2">Date of Birth</label>
+                      <div class="text-900">{{ formatDate(deploymentData.employee.date_of_birth) }}</div>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-4 field">
+                      <label class="block text-500 font-medium mb-2">Phone Number</label>
+                      <div class="text-900">{{ deploymentData.employee.phone_number }}</div>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-4 field">
+                      <label class="block text-500 font-medium mb-2">Email Address</label>
+                      <div class="text-900">{{ deploymentData.employee.email_address }}</div>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-4 field">
+                      <label class="block text-500 font-medium mb-2">Marital Status</label>
+                      <div class="text-900">{{ deploymentData.employee.marital_status }}</div>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-4 field">
+                      <label class="block text-500 font-medium mb-2">Nationality</label>
+                      <div class="text-900">{{ deploymentData.employee.nationality }}</div>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-4 field">
+                      <label class="block text-500 font-medium mb-2">NIN</label>
+                      <div class="text-900">{{ deploymentData.employee.nin }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-panel>
+          </div>
+
+          <!-- Deployment Details -->
+          <div class="col-12 md:col-12">
+            <p-panel header="Deployment Information">
+              <div class="grid">
+                <div class="col-12 md:col-6 field">
+                  <label class="block text-500 font-medium mb-2">Unit</label>
+                  <div class="text-900">{{ deploymentData.unit.name }}</div>
+                </div>
+
+                <div class="col-12 md:col-6 field">
+                  <label class="block text-500 font-medium mb-2">Cadre</label>
+                  <div class="text-900">{{ deploymentData.cadre.name }}</div>
+                </div>
+
+                <div class="col-12 md:col-6 field">
+                  <label class="block text-500 font-medium mb-2">Grade Level</label>
+                  <div class="text-900">{{ deploymentData.gradeLevel.description }}</div>
+                </div>
+
+                <div class="col-12 md:col-6 field">
+                  <label class="block text-500 font-medium mb-2">Expected Assumption Date</label>
+                  <div class="text-900">{{ formatDate(deploymentData.expected_assumption_date) }}</div>
+                </div>
+
+                <div class="col-12 md:col-6 field">
+                  <label class="block text-500 font-medium mb-2">MDAs</label>
+                  <div class="text-900">
+                    {{ deploymentData.unit?.division_id?.department?.branch?.ministry?.name || deploymentData.unit?.division_id?.department?.branch?.agency?.name }}
+                  </div>
+                </div>
+
+                <div class="col-12 md:col-6 field">
+                  <label class="block text-500 font-medium mb-2">Branch</label>
+                  <div class="text-900">{{ deploymentData.unit.division_id?.department.branch.name }}</div>
+                </div>
+
+                <div class="col-12 md:col-6 field">
+                  <label class="block text-500 font-medium mb-2">Division</label>
+                  <div class="text-900">{{ deploymentData.unit.division_id?.name }}</div>
+                </div>
+
+                <div class="col-12 md:col-6 field">
+                  <label class="block text-500 font-medium mb-2">Department</label>
+                  <div class="text-900">{{ deploymentData.unit.division_id?.department.name }}</div>
+                </div>
+
+                <!-- <div class="col-12 md:col-6 field">
+                  <label class="block text-500 font-medium mb-2">Request Type</label>
+                  <div *ngIf class="text-900">{{ deploymentData.unit.division_id.department.name }}</div>
+                  <div class="text-900">{{ deploymentData.unit.division_id.department.name }}</div>
+                </div> -->
+              </div>
+            </p-panel>
+          </div>
+
+          <!-- Address Information -->
+          <div class="col-12 md:col-12">
+            <p-panel header="Address Information">
+              <div class="grid">
+                <div class="col-6 field">
+                  <label class="block text-500 font-medium mb-2">Residential Address</label>
+                  <div class="text-900">{{ deploymentData.employee.residential_address }}</div>
+                </div>
+
+                <div class="col-6 field">
+                  <label class="block text-500 font-medium mb-2">Permanent Address</label>
+                  <div class="text-900">{{ deploymentData.employee.permanent_address }}</div>
+                </div>
+              </div>
+            </p-panel>
+          </div>
+
+          <!-- Qualifications -->
+          <div class="col-12">
+            <p-panel header="Qualifications">
+              <p-table [value]="qualifications" [tableStyle]="{'min-width': '50rem'}"
+                responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Qualification</th>
+                    <th>Institution</th>
+                    <th>Year</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-qualification>
+                  <tr>
+                    <td>{{ qualification.qualification }}</td>
+                    <td>{{ qualification.institution }}</td>
+                    <td>{{ formatDate(qualification.year) | date:'yyyy' }}</td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="3" class="text-center">No qualifications available.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </p-panel>
+          </div>
+          <div class="col-12">
+            <p-panel header="Certifications">
+              <p-table [value]="certifications" [tableStyle]="{'min-width': '50rem'}"
+                responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Certificates</th>
+                    <th>Year</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-certification>
+                  <tr>
+                    <td>{{ certification.certification }}</td>
+                    <td>{{ formatDate(certification.year) | date:'yyyy' }}</td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="3" class="text-center">No qualifications available.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </p-panel>
+          </div>
+        </div>
+        <div class="col-2">
+          <button pButton pRipple icon="pi pi-arrow-left" label="Back"
+            class="p-button-outlined p-button-secondary mr-2 mb-1 col-12" (click)="goBack()">
+          </button>
+          <!-- <button pButton pRipple icon="pi pi-print" label="Print" class="p-button-outlined mr-2"></button> -->
+          <button pButton pRipple icon="pi pi-pencil" label="Edit" class="p-button-primary col-12" [routerLink]="['/admin/dashboard/deployment/edit', deploymentData.id]"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

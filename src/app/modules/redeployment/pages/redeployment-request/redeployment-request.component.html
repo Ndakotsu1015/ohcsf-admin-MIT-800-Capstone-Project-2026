@@ -1,0 +1,278 @@
+<p-dialog [(visible)]="requestDialog" [modal]="true" [style]="{width: '50%'}" [draggable]="false" [resizable]="false"
+  header="Employee Request Details">
+  <div class="grid" *ngIf="employeeRequest">
+    <!-- Request Details Section -->
+    <div class="col-12">
+      <p-panel styleClass="request-panel">
+        <ng-template pTemplate="header">
+          <div class="flex align-items-center">
+            <i class="pi pi-file-edit mr-2"></i>
+            <span class="font-bold">Request Information</span>
+          </div>
+        </ng-template>
+
+        <div class="grid">
+
+
+          <div class="field col-12 md:col-4">
+            <label class="text-sm text-gray-600">Request Type</label>
+            <div class="mt-1 font-medium">{{employeeRequest.request_type}}</div>
+          </div>
+
+          <div class="field col-12 md:col-8">
+            <label class="text-sm text-gray-600">Reason</label>
+            <div class="mt-1 p-2 bg-gray-50 border-round">{{employeeRequest.reason}}</div>
+          </div>
+
+          <div class="field col-12 md:col-4">
+            <label class="text-sm text-gray-600">Status</label>
+            <div class="mt-1">
+              <p-tag [severity]="getStatusSeverity(employeeRequest.status)" [value]="employeeRequest.status"
+                [rounded]="true"></p-tag>
+            </div>
+          </div>
+
+          <div class="field col-12 md:col-4">
+            <label class="text-sm text-gray-600">Approved By</label>
+            <div class="mt-1 font-medium">{{employeeRequest.approved_by?.name || 'Pending Approval'}}</div>
+          </div>
+
+          <div class="field col-12 md:col-4">
+            <label class="text-sm text-gray-600">Request Letter</label>
+            <div class="mt-1">
+              <button pButton type="button" icon="pi pi-file" label="Open Letter" class="p-button-outlined"
+                (click)="downloadFile()" [disabled]="!employeeRequest.request_letter_file">
+              </button>
+            </div>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+
+    <!-- Employee Details Section -->
+    <div class="col-12 mt-3">
+      <p-panel styleClass="employee-panel">
+        <ng-template pTemplate="header">
+          <div class="flex align-items-center">
+            <i class="pi pi-user mr-2"></i>
+            <span class="font-bold">Employee Information</span>
+          </div>
+        </ng-template>
+
+        <div class="grid">
+          <div class="col-12 md:col-3 flex justify-content-center">
+            <div class="employee-photo-container">
+              <img [src]="passport_file" alt="Employee Photo" class="employee-photo shadow-2"
+                onerror="this.src='assets/profile.png'">
+            </div>
+          </div>
+
+          <div class="col-12 md:col-9">
+            <div class="grid">
+              <div class="field col-12 md:col-4">
+                <label class="text-sm text-gray-600">Employee Number</label>
+                <div class="mt-1 font-medium">{{employeeRequest.employee.employee_no}}</div>
+              </div>
+
+              <div class="field col-12 md:col-8">
+                <label class="text-sm text-gray-600">Full Name</label>
+                <div class="mt-1 font-medium text-primary">{{employeeRequest.employee.title}}
+                  {{employeeRequest.employee.full_name}}</div>
+              </div>
+
+              <div class="field col-12 md:col-4">
+                <label class="text-sm text-gray-600">IPPIS Number</label>
+                <div class="mt-1 font-medium">{{employeeRequest.employee.ippis_no}}</div>
+              </div>
+
+              <div class="field col-12 md:col-4">
+                <label class="text-sm text-gray-600">Date of Birth</label>
+                <div class="mt-1 font-medium">{{formatDate(employeeRequest.employee.date_of_birth)}}</div>
+              </div>
+
+              <div class="field col-12 md:col-4">
+                <label class="text-sm text-gray-600">Gender</label>
+                <div class="mt-1 font-medium">{{employeeRequest.employee.gender}}</div>
+              </div>
+
+              <div class="field col-12 md:col-6">
+                <label class="text-sm text-gray-600">Phone Number</label>
+                <div class="mt-1 font-medium">{{employeeRequest.employee.phone_number}}</div>
+              </div>
+
+              <div class="field col-12 md:col-6">
+                <label class="text-sm text-gray-600">Email Address</label>
+                <div class="mt-1 font-medium text-primary">{{employeeRequest.employee.email_address}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+
+    <!-- Unit and Organization Details Section -->
+    <div class="col-12 mt-3">
+      <p-panel styleClass="organization-panel">
+        <ng-template pTemplate="header">
+          <div class="flex align-items-center">
+            <i class="pi pi-building mr-2"></i>
+            <span class="font-bold">Organizational Information</span>
+          </div>
+        </ng-template>
+
+        <div class="grid">
+          <div class="col-12">
+            <div class="flex flex-column md:flex-row md:align-items-center organization-path p-2 border-round mb-3">
+              <span>{{employeeRequest.unit.division_id.department.branch?.agency?.name || employeeRequest.unit.division_id.department.branch?.ministry?.name}}</span>
+              <i class="pi pi-angle-right mx-2 hidden md:block"></i>
+              <i class="pi pi-arrow-down my-1 block md:hidden"></i>
+              <span>{{employeeRequest.unit.division_id.department.branch?.agency?.name}}</span>
+              <i class="pi pi-angle-right mx-2 hidden md:block"></i>
+              <i class="pi pi-arrow-down my-1 block md:hidden"></i>
+              <span>{{employeeRequest.unit.division_id.department.branch.name}}</span>
+              <i class="pi pi-angle-right mx-2 hidden md:block"></i>
+              <i class="pi pi-arrow-down my-1 block md:hidden"></i>
+              <span>{{employeeRequest.unit.division_id.department.name}}</span>
+            </div>
+          </div>
+
+          <div class="field col-12 md:col-6">
+            <label class="text-sm text-gray-600">Division</label>
+            <div class="mt-1 font-medium">{{employeeRequest.unit.division_id.name}}</div>
+          </div>
+
+          <div class="field col-12 md:col-6">
+            <label class="text-sm text-gray-600">Unit</label>
+            <div class="mt-1 font-medium">{{employeeRequest.unit.name}}</div>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-content-end gap-2 col-6 ml-auto">
+      <button pButton pRipple label="Reject" icon="pi pi-times-circle"
+        class="p-button-danger p-button-sm" (click)="approveRequest('Rejected')"></button>
+      <button pButton pRipple label="Approve" icon="pi pi-check-circle"
+        class="p-button-success" (click)="approveRequest('Approved')"></button>
+    </div>
+  </ng-template>
+
+</p-dialog>
+
+<!-- Rejection Confirmation Dialog -->
+<p-dialog [(visible)]="showRejectionDialog" [modal]="true" [style]="{width: '450px'}" styleClass="rejection-dialog"
+  header="Reject Request" [closable]="false">
+
+  <div class="field">
+    <label for="rejectionReason" class="block mb-2">Reason for Rejection</label>
+    <textarea id="rejectionReason" pInputTextarea [(ngModel)]="rejectionReason" [rows]="5" class="w-full"
+      placeholder="Please provide a reason for rejecting this request..."></textarea>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="cancelReject()"></button>
+    <button pButton pRipple label="Confirm Rejection" icon="pi pi-check" class="p-button-danger"
+      (click)="confirmReject()" [disabled]="!rejectionReason.trim()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>
+<div class="px-10">
+  <p-panel header="ReDeployment Request">
+    <!-- Search and Filter bar -->
+    <div class="flex align-items-center gap-1 mb-3">
+      <div class="p-input-icon-left mr-3 !w-[80%]" style="width: 70%">
+        <i class="pi pi-search"></i>
+        <input pInputText type="text" [(ngModel)]="globalFilterValue" (input)="applyGlobalFilter()" placeholder="Search"
+          class="p-inputtext w-full" />
+      </div>
+
+      <div class="col-3">
+        <div class="flex ml-auto  justify-content-end col-9">
+
+          <button pButton pRipple label="Approve Selected" icon="pi pi-check-circle"
+           (click)="approveSelected()" class="p-button-success p-button-sm"></button>
+        </div>
+      </div>
+     </div>
+    <!-- Data Table -->
+    <p-table #dt [value]="filteredDeployments" [rows]="10" [paginator]="true"
+      [globalFilterFields]="['IPPIS_no', 'empNo', 'full_name', 'mda', 'branch', 'department', 'division', 'cadre', 'gradeLevel']"
+      [tableStyle]="{'min-width': '85rem'}" [(selection)]="selectedDeployments" [rowHover]="true" [loading]="loading" responsiveLayout="scroll">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
+          <th pSortableColumn="ippis">IPPIS NO <p-sortIcon field="ippis"></p-sortIcon></th>
+          <th pSortableColumn="empNo">Emp No <p-sortIcon field="empNo"></p-sortIcon></th>
+          <th pSortableColumn="mda">MDA's <p-sortIcon field="mda"></p-sortIcon></th>
+          <th pSortableColumn="full_name">Full Name <p-sortIcon field="full_name"></p-sortIcon></th>
+          <!-- <th pSortableColumn="branch">Branch <p-sortIcon field="branch"></p-sortIcon></th> -->
+          <th pSortableColumn="phone_number">Phone Number</th>
+          <th pSortableColumn="department">Department <p-sortIcon field="department"></p-sortIcon></th>
+          <!-- <th pSortableColumn="cadre">Cadre <p-sortIcon field="cadre"></p-sortIcon></th>-->
+          <th pSortableColumn="reason">Request Type <p-sortIcon field="cadre"></p-sortIcon></th>
+          <th pSortableColumn="Status">Status <p-sortIcon field="designation"></p-sortIcon></th>
+          <!-- <th pSortableColumn="counter">No. of Deployments</th> -->
+          <th>Action</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-deployment>
+        <tr>
+          <td>
+            <p-tableCheckbox [value]="deployment" />
+        </td>
+          <td>{{ deployment.employee?.ippis_no }}</td>
+          <td>{{ deployment.employee?.employee_no }}</td>
+          <td *ngIf="!deployment.unit?.division_id?.department?.branch?.agency">{{
+            deployment.unit?.division_id?.department?.branch?.ministry?.name }}</td>
+          <td *ngIf="deployment.unit?.division_id?.department?.branch?.agency">{{
+            deployment.unit?.division_id?.department?.branch?.agency?.name }}</td>
+          <!-- Use optional chaining (?) to prevent errors if any part of the chain is undefined -->
+          <td>
+            {{ deployment.employee?.title }}
+            {{ deployment.employee?.first_name }}
+            {{ deployment.employee?.middle_name }}
+            {{ deployment.employee?.last_name }}
+          </td>
+          <td>{{ deployment.employee?.phone_number }}</td>
+          <td>{{ deployment.unit?.division_id?.department?.name }}</td>
+          <!-- <td>{{ deployment.cadre }}</td>
+            <td>{{ deployment.designation?.name }}</td> -->
+          <!-- <td>{{ deployment.length }}</td> -->
+          <td>{{ deployment.request_type }}</td>
+          <td>
+            <p-tag
+                [value]="deployment.status"
+                [severity]="getStatusSeverity(deployment.status)"
+                 [rounded]="true">
+            </p-tag>
+        </td>
+
+          <td>
+            <button pButton pRipple class="p-button-success p-button-sm pi pi-eye p-button-outlined"
+              (click)="viewEmployeeDetails(deployment.id)" pTooltip="View" tooltipPosition="top">
+
+
+            </button>
+          </td>
+
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="11" class="text-center">No employee records found.</td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="paginatorleft">
+        <p-button type="button" icon="pi pi-refresh" styleClass="p-button-text" (click)="loadEmployees()"></p-button>
+      </ng-template>
+    </p-table>
+  </p-panel>
+
+</div>

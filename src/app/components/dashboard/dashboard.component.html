@@ -1,0 +1,46 @@
+    <div class="grid mb-6 ml-3 px-4">
+        <div class="col-12 lg:col-9 xl:col-4 ">
+            <div class="card mb-0 bg-green-700 p-3 flex align-items-center h-8rem">
+                <div class="flex align-items-center justify-content-center bg-green-200 border-round mr-3"
+                     [ngStyle]="{width: '3rem', height: '3rem'}">
+                    <i class="pi pi-user text-green-600 text-2xl"></i>
+                </div>
+                <div>
+                    <span class="block text-50 font-medium mb-1">Total Deployments</span>
+                    <div class="text-50 font-medium text-2xl">{{ totalDeployments | number}} </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 lg:col-9 xl:col-4">
+            <div class="card mb-0 bg-green-700 p-3 flex align-items-center h-8rem">
+                <div class="flex align-items-center justify-content-center bg-green-200 border-round mr-3"
+                     [ngStyle]="{width: '3rem', height: '3rem'}">
+                    <i class="pi pi-user text-green-600 text-2xl"></i>
+                </div>
+                <div>
+                    <span class="block text-50 font-medium mb-1">Total Proposed Re-Deployment</span>
+                    <div class="text-50 font-medium text-2xl">{{totalProposedRedeployments | number}}</div>
+                </div>
+            </div>
+        </div>
+
+       <div class="col-12 lg:col-9 xl:col-4">
+            <div class="card mb-0 bg-green-700 p-3 flex align-items-center h-8rem">
+                <div class="flex align-items-center justify-content-center bg-green-200 border-round mr-3"
+                     [ngStyle]="{width: '3rem', height: '3rem'}">
+                    <i class="pi pi-user text-green-600 text-2xl"></i>
+                </div>
+                <div>
+                    <span class="block text-50 font-medium mb-1">Total Redeployment</span>
+                    <div class="text-50 font-medium text-2xl">{{totalRedeployedDeployments | number}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- {{datas | json}} -->
+    <app-dashboard-elements [data]="datas" ></app-dashboard-elements>
+
+
+
+

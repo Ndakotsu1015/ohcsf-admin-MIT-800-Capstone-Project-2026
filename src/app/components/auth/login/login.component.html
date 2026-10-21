@@ -1,0 +1,46 @@
+<div class="login-container" style="width: 100%; height: 100%">
+    <div class="login-form">
+        <div class="logo mb-8" style="margin-top: -150px; width: 100%; height: 20%">
+            <img src="../../../../assets/coat-of-arms-tp.png" alt="OHCSF Logo" style="width: 100px; height: 100px;">
+            <h2 class="text-center"><strong>OFFICE OF THE HEAD OF THE CIVIL SERVICE OF THE FEDERATION <br> (OHCSF)</strong></h2>
+        </div>
+            <p-messages [value]="msgs"></p-messages>
+            <form [formGroup]="signinForm" (ngSubmit)="onSubmit()" class="signin-form" style="width: 100% !important; margin: 0 !important;">
+                
+                   
+                <div class="p-field">
+                    <div class="flex mb-1"><i class="pi pi-user"></i>&nbsp;<label for="email">E-mail</label></div> 
+                    <p-inputGroup class="w-full">
+                        <input formControlName="email" pInputText id="email" type="text" placeholder="admin@erpdemo.com" class="w-full">
+                    </p-inputGroup>
+                </div>
+                
+                <div class="p-field w-full">
+                    <div class="flex mb-1"><i class="pi pi-lock"></i>&nbsp;<label for="password">Password</label></div> 
+                    <div class="p-inputgroup w-full">
+                        <input
+                          formControlName="password"
+                          pInputText
+                          id="password"
+                          [type]="passwordVisible ? 'text' : 'password'"
+                          placeholder="********"
+                          class="w-full pr-10"
+                        />
+                        <span class="p-inputgroup-addon password-toggle" (click)="togglePassword()">
+                          <i class="pi" [ngClass]="passwordVisible ? 'pi-eye' : 'pi-eye-slash'"></i>
+                        </span>
+                      </div>
+                </div>
+                <div style="justify-content: center; display: flex; flex-direction:column ; align-items: center;">
+                    <p-button type="submit" label="SIGN IN" class="p-button-success login-btn w-full" style="justify-content: center;"></p-button>
+                    <a href="#" class="forgot-password">Forgot Password?</a></div>
+                        
+                   
+            
+            </form>
+      
+    </div>
+    <div class="login-image" style="width: 50vw; height: 100vh;">
+        <img src="../../../../../assets/building.jpg" alt="Office Building">
+    </div>
+</div>

@@ -1,0 +1,489 @@
+<!-- enrollment.component.html -->
+<p-toast></p-toast>
+<app-enrollment-preview
+  [(visible)]="showPreview"
+  [formData]="formData"
+  (confirm)="onSubmit()"
+  (formReset)="resetForm()"
+  (cancel)="editForm()">
+</app-enrollment-preview>
+
+
+<div class="px-8">
+  <p-panel header="Employee Enrollment Edit">
+    <div class="grid">
+      <div class="col-12">
+        <div class="text-xl font-medium text-primary mb-3">Personal Information</div>
+      </div>
+      <div *ngIf="skeleton">
+        
+        <div class="grid">
+          <!-- Personal Information Section -->
+          <div class="col-12">
+            <div class="flex flex-column md:flex-row">
+              <!-- Photo Upload Section -->
+              <div class="md:col-3 p-2">
+                <div class="flex flex-column align-items-center">
+                  <p-skeleton shape="circle" size="10rem" styleClass="mb-2"></p-skeleton>
+                  <p-skeleton width="8rem" height="2.5rem" styleClass="mb-2"></p-skeleton>
+                  <p-skeleton width="12rem" height="1rem"></p-skeleton>
+                </div>
+              </div>
+              
+              <!-- Basic Information Section -->
+              <div class="md:col-9">
+                <div class="grid">
+                  <!-- Title Field -->
+                  <div class="col-12 md:col-4 mb-3">
+                    <p-skeleton width="5rem" height="1rem" styleClass="mb-2"></p-skeleton>
+                    <p-skeleton height="2.5rem" styleClass="w-full"></p-skeleton>
+                  </div>
+                  
+                  <!-- First Name Field -->
+                  <div class="col-12 md:col-8 mb-3">
+                    <p-skeleton width="8rem" height="1rem" styleClass="mb-2"></p-skeleton>
+                    <p-skeleton height="2.5rem" styleClass="w-full"></p-skeleton>
+                  </div>
+                  
+                  <!-- Middle Name Field -->
+                  <div class="col-12 md:col-4 mb-3">
+                    <p-skeleton width="10rem" height="1rem" styleClass="mb-2"></p-skeleton>
+                    <p-skeleton height="2.5rem" styleClass="w-full"></p-skeleton>
+                  </div>
+                  
+                  <!-- Last Name Field -->
+                  <div class="col-12 md:col-8 mb-3">
+                    <p-skeleton width="8rem" height="1rem" styleClass="mb-2"></p-skeleton>
+                    <p-skeleton height="2.5rem" styleClass="w-full"></p-skeleton>
+                  </div>
+                </div>
+                
+                <!-- Additional Personal Details -->
+                <div class="grid">
+                  <!-- Gender Field -->
+                  <div class="col-12 md:col-4 mb-3">
+                    <p-skeleton width="6rem" height="1rem" styleClass="mb-2"></p-skeleton>
+                    <p-skeleton height="2.5rem" styleClass="w-full"></p-skeleton>
+                  </div>
+                  
+                  <!-- Marital Status Field -->
+                  <div class="col-12 md:col-4 mb-3">
+                    <p-skeleton width="10rem" height="1rem" styleClass="mb-2"></p-skeleton>
+                    <p-skeleton height="2.5rem" styleClass="w-full"></p-skeleton>
+                  </div>
+                  
+                  <!-- Date of Birth Field -->
+                  <div class="col-12 md:col-4 mb-3">
+                    <p-skeleton width="10rem" height="1rem" styleClass="mb-2"></p-skeleton>
+                    <p-skeleton height="2.5rem" styleClass="w-full"></p-skeleton>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Contact Information Section -->
+          <div class="col-12 mt-4">
+            <p-skeleton width="15rem" height="1.5rem" styleClass="mb-4"></p-skeleton>
+            
+            <div class="grid">
+              <!-- Residential Address Field -->
+              <div class="col-12 md:col-6 mb-3">
+                <p-skeleton width="12rem" height="1rem" styleClass="mb-2"></p-skeleton>
+                <p-skeleton height="6rem" styleClass="w-full"></p-skeleton>
+              </div>
+              
+              <!-- Permanent Address Field -->
+              <div class="col-12 md:col-6 mb-3">
+                <p-skeleton width="12rem" height="1rem" styleClass="mb-2"></p-skeleton>
+                <p-skeleton height="6rem" styleClass="w-full"></p-skeleton>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form [formGroup]="enrollmentForm"  *ngIf="!skeleton">
+
+
+
+        <div class="col-12 md:col-12">
+          <div class="grid">
+            <!-- Personal Information Section -->
+          
+            <div class="col-12 flex">
+              <div class="col-3 md:col-3">
+                <div class="photo-upload p-3 border-round surface-100 flex flex-column align-items-center">
+                  <img [src]="avatarUrl || '../../../../assets/profile.png'" alt="Profile Photo"
+                    class="mb-3 border-round" width="150">
+                  <p-fileUpload #fileUpload mode="basic" chooseLabel="Upload Photo" [auto]="true" accept="image/*"
+                    [maxFileSize]="500000" [customUpload]="true" (uploadHandler)="onPhotoUpload($event, fileUpload)"
+                    styleClass="p-button-sm w-full">
+                  </p-fileUpload>
+                  <small class="text-500 mt-2">Image type should be Jpeg, png or JPG and Less than 500kb</small>
+
+                </div>
+              </div>
+
+              <div class="col-9 ">
+                <div class="col- flex">
+
+                    <div class="col-12 md:col-6 mb-3">
+                    <label for="title" class="block mb-2">Title <span class="text-red">*</span></label>
+                    <p-dropdown id="title" [options]="titleOptions" required formControlName="title"
+                      placeholder="Select Title" [style]="{'width':'100%'}" optionLabel="name"
+                      optionValue="value"></p-dropdown>
+                    <small class="p-error block" *ngIf="enrollmentForm.get('title')?.invalid &&
+                      (enrollmentForm.get('title')?.dirty || enrollmentForm.get('title')?.touched)">
+                      Title is required
+                    </small>
+                    </div>
+
+                  <div class="col-12 md:col-6 mb-3">
+                    <label for="first_name" class="block mb-2">First Name <span class="text-red">*</span></label>
+                    <input id="first_name" type="text" pInputText required formControlName="first_name"
+                      class="w-full" />
+                      <small class="p-error block" *ngIf="enrollmentForm.get('first_name')?.invalid &&
+                      (enrollmentForm.get('first_name')?.dirty || enrollmentForm.get('first_name')?.touched)">
+                      First Name is required
+                    </small>
+                  </div>
+                </div>
+                <div class="col- flex">
+
+                  <div class="col-12 md:col-6 mb-3">
+                    <label for="middle_name" class="block mb-2">Middle Name </label>
+                    <input id="middle_name" type="text" pInputText formControlName="middle_name"
+                      class="w-full" />
+
+                  </div>
+
+                  <div class="col-12 md:col-6 mb-3">
+                    <label for="last_name" class="block mb-2">Last Name <span class="text-red">*</span></label>
+                    <input id="last_name" type="text" pInputText required formControlName="last_name" class="w-full" />
+                    <small class="p-error block" *ngIf="enrollmentForm.get('last_name')?.invalid &&
+                    (enrollmentForm.get('last_name')?.dirty || enrollmentForm.get('last_name')?.touched)">
+                    Last Name is required
+                  </small>
+                  </div>
+                </div>
+
+                <div class="col-12 flex">
+                  <div class="col-12 md:col-4 mb-3">
+                    <label for="gender" class="block mb-2">Gender <span class="text-red">*</span></label>
+                    <p-dropdown id="gender" [options]="genderOptions" required formControlName="gender"
+                      placeholder="Select Gender" [style]="{'width':'100%'}" optionLabel="name"
+                      optionValue="value"></p-dropdown>
+                      <small class="p-error block" *ngIf="enrollmentForm.get('gender')?.invalid &&
+                      (enrollmentForm.get('gender')?.dirty || enrollmentForm.get('gender')?.touched)">
+                      Gender is required
+                    </small>
+                  </div>
+
+                  <div class="col-12 md:col-4 mb-3">
+                    <label for="marital_status" class="block mb-2">Marital Status <span class="text-red">*</span></label>
+                    <p-dropdown id="marital_status" [options]="maritalStatusOptions" required
+                      formControlName="marital_status" placeholder="Select Marital Status" [style]="{'width':'100%'}"
+                      optionLabel="name" optionValue="value"></p-dropdown>
+                      <small class="p-error block" *ngIf="enrollmentForm.get('marital_status')?.invalid &&
+                      (enrollmentForm.get('marital_status')?.dirty || enrollmentForm.get('marital_status')?.touched)">
+                      Marital Status is required
+                    </small>
+                  </div>
+
+                  <div class="col-12 md:col-4 mb-3">
+                    <label for="date_of_birth" class="block mb-2">Date of Birth <span class="text-red">*</span></label>
+                    <p-calendar styleClass="w-full"  [maxDate]="maxDate" id="date_of_birth"  dateFormat="yy-mm-dd"
+                      formControlName="date_of_birth" [defaultDate]="defaultDate"></p-calendar>
+                      <small class="p-error block" *ngIf="enrollmentForm.get('date_of_birth')?.invalid &&
+                      (enrollmentForm.get('date_of_birth')?.dirty || enrollmentForm.get('date_of_birth')?.touched)">
+                      Date of birth is required
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Contact Information Section -->
+            <div class="col-12 ">
+              <div class="text-xl font-medium text-primary mb-3">Contact Information</div>
+            </div>
+
+            <div class="col-12 md:col-6 mb-3">
+              <label for="residential_address" class="block mb-2">Residential Address <span class="text-red">*</span></label>
+              <textarea id="residential_address" pInputTextarea required formControlName="residential_address" rows="3"
+                class="w-full"></textarea>
+            </div>
+            <div class="col-12 md:col-6 mb-3">
+              <label for="permanent_address" class="block mb-2">Permanent Address <span class="text-red">*</span></label>
+              <textarea id="permanent_address" type="text" pInputText required formControlName="permanent_address"
+                class="w-full" rows="3"></textarea>
+            </div>
+
+            <div class="col-12 md:col-4 mb-3">
+              <label for="phone_number" class="block mb-2">Phone Number (WhatsApp) <span class="text-red">*</span></label>
+              <input id="phone_number" required pInputText formControlName="phone_number" class="w-full" type="text" />
+            </div>
+
+            <div class="col-12 md:col-4 mb-3">
+              <label for="nationality" class="block mb-2">Nationality <span class="text-red">*</span></label>
+              <input id="nationality" type="text" pInputText required formControlName="nationality" class="w-full" />
+            </div>
+
+            <div class="col-12 md:col-4 mb-3">
+              <label for="geopolitical_zone_id" class="block mb-2">Geopolitical Zone <span class="text-red">*</span></label>
+              <p-dropdown id="geopolitical_zone_id" (onChange)="selectedZoneState($event.value)"
+                [options]="zoneOptions" required formControlName="geopolitical_zone_id" placeholder="Select Zone"
+                [style]="{'width':'100%'}" optionValue="id" optionLabel="name"></p-dropdown>
+            </div>
+
+            <div class="col-12 md:col-4 mb-3">
+              <label for="state_id" class="block mb-2">State of Origin <span class="text-red">*</span></label>
+              <p-dropdown id="state_id" (onChange)="getLGA($event.value)" optionLabel="name" [options]="stateOptions"
+                required formControlName="state_id" placeholder="Select State" [style]="{'width':'100%'}"
+                [filter]="true" optionValue="id"></p-dropdown>
+            </div>
+            <div class="col-12 md:col-4 mb-3">
+              <label for="lga_id" class="block mb-2">LGA <span class="text-red">*</span></label>
+
+              <p-dropdown id="lga_id" [options]="lga" optionLabel="name" required formControlName="lga_id" placeholder="Select
+                LGA" [style]="{'width':'100%'}" [filter]="true" optionValue="id"></p-dropdown>
+            </div>
+
+            <div class="col-12 md:col-4 mb-3">
+              <label for="email_address" class="block mb-2">Email Address <span class="text-red">*</span></label>
+              <input id="email_address" type="email_address" pInputText required formControlName="email_address"
+                class="w-full" />
+            </div>
+
+            <!-- Employment Information Section -->
+            <div class="col-12 mt-3">
+              <div class="text-xl font-medium text-primary mb-3">Employment Information</div>
+            </div>
+
+            <div class="col-12 md:col-4 mb-3">
+              <label for="nin" class="block mb-2">NIN No <span class="text-red">*</span></label>
+              <input id="nin" type="text" pInputText required formControlName="nin" class="w-full" maxlength="11" pattern="[0-9]*"/>
+              <small class="p-error block" *ngIf="enrollmentForm.get('nin')?.invalid && 
+                     (enrollmentForm.get('nin')?.dirty || enrollmentForm.get('nin')?.touched)">
+                <span *ngIf="enrollmentForm.get('nin')?.errors?.['required']">
+                  NIN is required
+                </span>
+                <span *ngIf="enrollmentForm.get('nin')?.errors?.['maxlength']">
+                  NIN must be maximum {{enrollmentForm.get('nin')?.errors?.['maxlength']?.requiredLength}} digits 
+                  (current length: {{enrollmentForm.get('nin')?.errors?.['maxlength']?.actualLength}})
+                </span>
+                <span *ngIf="enrollmentForm.get('nin')?.errors?.['pattern']">
+                  NIN must contain only numbers
+                </span>
+              </small>
+            </div>
+
+            <div class="col-12 md:col-4 mb-3">
+              <label for="ippis_no" class="block mb-2">IPPIS No <span class="text-red">*</span></label>
+              <input id="ippis_no" type="text" pInputText required formControlName="ippis_no" class="w-full"
+               />
+            </div>
+
+            <div class="col-12 md:col-4 mb-3">
+              <label for="employee_no" class="block mb-2">Employee No <span class="text-red">*</span></label>
+              <input id="employee_no" type="text" pInputText required formControlName="employee_no" class="w-full" maxlength="6"/>
+              <small class="p-error block" *ngIf="enrollmentForm.get('employee_no')?.invalid && 
+                     (enrollmentForm.get('employee_no')?.dirty || enrollmentForm.get('employee_no')?.touched)">
+                <span *ngIf="enrollmentForm.get('employee_no')?.errors?.['required']">
+                  Employee No is required
+                </span>
+                <span *ngIf="enrollmentForm.get('employee_no')?.errors?.['maxlength']">
+                  Employee No must be maximum {{enrollmentForm.get('employee_no')?.errors?.['maxlength']?.requiredLength}} characters 
+                  (current length: {{enrollmentForm.get('employee_no')?.errors?.['maxlength']?.actualLength}})
+                </span>
+              </small>
+            </div>
+
+            <!-- <div class="col-12 md:col-3 mb-3">
+              <label for="request_type" class="block mb-2">Request Type <span class="text-red">*</span></label>
+              <p-dropdown id="request_type"  [options]="requestTypeOptions"
+                required  placeholder="Select Request Type" formControlName="request_type" optionLabel="name"
+                [style]="{'width':'100%'}"optionValue="value"></p-dropdown>
+            </div> -->
+
+            <div class="col-12 md:col-4 mb-3">
+              <label for="ministry_id" class="block mb-2">Ministry <span class="text-red">*</span></label>
+              <p-dropdown id="ministry_id" (onChange)="selectedMinistryAgency($event.value)" [options]="ministryOptions"
+                required  placeholder="Select Ministry" formControlName="ministry_id" optionLabel="name"
+                [style]="{'width':'100%'}" [filter]="true" optionValue="id"></p-dropdown>
+            </div>
+
+            <div class="col-12 md:col-4 mb-3">
+              <label for="agency_id" class="block mb-2">Agency (optional)</label>
+              <p-dropdown id="agency_id" [options]="agencyOptions"
+                placeholder="Select Agency" optionValue="id" formControlName="agency_id"  optionLabel="name" [style]="{'width':'100%'}"
+                [filter]="true"></p-dropdown>
+            </div>
+
+            <div class="col-12 md:col-4 mb-3">
+              <label for="branch_id" class="block mb-2">Location <span class="text-red">*</span></label>
+              <p-dropdown id="branch_id" [options]="branchOptions" (onChange)="selectedBranchDepartment($event.value)" required
+                placeholder="Select Location" formControlName="branch_id" [style]="{'width':'100%'}" optionLabel="name" optionValue="id"></p-dropdown>
+            </div>
+
+            <div class="col-12 md:col-4 mb-3">
+              <label for="department_id" class="block mb-2" >Department <span class="text-red">*</span></label>
+              <p-dropdown id="department_id" [options]="departmentOptions" (onChange)="selectedDepartmentDivision($event.value)"
+                placeholder="Select Department" formControlName="department_id"  [style]="{'width':'100%'}" optionLabel="name" optionValue="id"
+                ></p-dropdown>
+            </div>
+
+            <div class="col-12 md:col-4 mb-3">
+              <label for="division_id" class="block mb-2">Division <span class="text-red">*</span></label>
+              <p-dropdown id="division_id" [options]="divisionOptions" placeholder="Select Division"
+                [style]="{'width':'100%'}" formControlName="division_id" optionLabel="name" optionValue="id"></p-dropdown>
+            </div>
+
+            <div class="col-12 md:col-4 mb-3">
+              <label for="unit_id" class="block mb-2">Unit <span class="text-red">*</span></label>
+              <p-dropdown id="unit_id" [options]="unitOptions" required formControlName="unit_id"
+                placeholder="Select Unit" [style]="{'width':'100%'}" optionLabel="name" optionValue="id"></p-dropdown>
+            </div>
+
+            <div class="col-12 md:col-4 mb-3">
+                <label for="cadre" class="block mb-2">Cadre<span class="text-red">*</span></label>
+                <p-dropdown id="cadre " (onChange)="getGradeLevel($event.value)" [options]="cadresOptions" required
+                  formControlName="cadre_id" placeholder="Select Cadre" [style]="{'width':'100%'}" optionLabel="name"
+                  optionValue="id"></p-dropdown>
+                  <small class="p-error block" *ngIf="enrollmentForm.get('cadre')?.invalid &&
+                  (enrollmentForm.get('cadre')?.dirty || enrollmentForm.get('cadre')?.touched)">
+                   Cadre is required
+                </small>
+                </div>
+
+            <div class="col-12 md:col-4 mb-3">
+              <label for="grade_level" class="block mb-2">Grade Level <span class="text-red">*</span></label>
+              <p-dropdown id="grade_level"  [options]="gradeLevelOptions" required formControlName="grade_level_id"
+                placeholder="Select Grade Level" [style]="{'width':'100%'}" optionLabel="name"
+                optionValue="id"></p-dropdown>
+            </div>
+
+
+            <div class="col-12 md:col-4 mb-3">
+              <label for="designation_id" class="block mb-2">Designation <span class="text-red">*</span></label>
+
+              <p-dropdown id="designation_id" [options]="designationOptions" required formControlName="designation_id"
+                placeholder="Select Designation" [style]="{'width':'100%'}" optionLabel="name"
+                optionValue="id"></p-dropdown>
+            </div>
+            <!-- Qualifications Section -->
+            <div class="col-12 mt-3">
+              <div class="text-xl font-medium text-primary mb-3">Qualifications & Certifications (optional)</div>
+            </div>
+
+            <div class="col-12 mb-3">
+              <p-table [value]="qualifications" responsiveLayout="scroll" [scrollable]="true">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Qualification</th>
+                    <th>Institution</th>
+                    <th>Year</th>
+                    <th style="width: 5rem">Actions</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-qualification>
+                  <tr>
+                    <td>{{qualification.qualification}}</td>
+                    <td>{{qualification.institution}}</td>
+                    <td>{{qualification.year | date:'yyyy'}}</td>
+                    <td>
+                      <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"
+                        (click)="removeQualification(qualification)"></button>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+
+              <div class="flex align-items-center justify-content-end mt-3">
+                <p-button icon="pi pi-plus" label="Add Qualification" (click)="showQualificationDialog()"
+                  styleClass="p-button-outlined"></p-button>
+              </div>
+            </div>
+
+            <!-- CERTIFICATIONS -->
+            <div class="col-12 mb-3">
+              <p-table [value]="certifications" responsiveLayout="scroll" [scrollable]="true">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Certification (If any)</th>
+                    <th>Year</th>
+                    <th style="width: 5rem">Actions</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-certifications>
+                  <tr>
+                    <td>{{certifications.certification}}</td>
+                    <td>{{certifications.year | date:'yyyy'}}</td>
+                    <td>
+                      <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text"
+                        (click)="removeCertification(certifications)"></button>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+
+              <div class="flex align-items-center justify-content-end mt-3">
+                <p-button icon="pi pi-plus" label="Add Certification" (click)="showCertificationDialog()"
+                  styleClass="p-button-outlined"></p-button>
+              </div>
+            </div>
+
+            <div class="col-12 flex justify-content-end gap-2 mt-4">
+              <p-button label="Back" (click)="cancelEdit()" styleClass="p-button-outlined"></p-button>
+              <p-button label="Submit" icon="pi pi-check" (click)="onSubmit()"></p-button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </p-panel>
+</div>
+
+<p-dialog header="Add Qualification" [(visible)]="qualificationDialog" [style]="{width: '450px'}" [modal]="true">
+  <div class="p-fluid">
+    <div class="field mb-3">
+      <label for="qualificationType" class="block mb-2">Qualification</label>
+      <p-dropdown id="qualificationType" [options]="qualificationOptions" [(ngModel)]="newQualification.qualification"
+        placeholder="Select Qualification" [style]="{'width':'100%'}" optionLabel="name"
+        optionValue="value"></p-dropdown>
+    </div>
+    <div class="field mb-3">
+      <label for="institution" class="block mb-2">Institution</label>
+      <input id="institution" type="text" pInputText [(ngModel)]="newQualification.institution" class="w-full" />
+    </div>
+    <div class="field mb-3">
+      <label for="year" class="block mb-2">Year</label>
+      <p-calendar id="year" view="year" dateFormat="yy" [(ngModel)]="newQualification.year"></p-calendar>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-times" label="Cancel" (click)="hideQualificationDialog()"
+      styleClass="p-button-text"></p-button>
+    <p-button icon="pi pi-check" label="Save" (click)="addQualification()"></p-button>
+  </ng-template>
+</p-dialog>
+
+
+<p-dialog header="Add Certification" [(visible)]="certificationDialog" [style]="{width: '450px'}" [modal]="true">
+  <div class="p-fluid">
+
+    <div class="field mb-3">
+      <label for="Certification" class="block mb-2">Certification</label>
+      <input id="Certification" type="text" pInputText [(ngModel)]="newCertification.certification" class="w-full" />
+    </div>
+    <div class="field mb-3">
+      <label for="year" class="block mb-2">Year</label>
+      <p-calendar id="year" view="year" dateFormat="yy" [(ngModel)]="newCertification.year"></p-calendar>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-times" label="Cancel" (click)="hideCertificationDialog()"
+      styleClass="p-button-text"></p-button>
+    <p-button icon="pi pi-check" label="Save" (click)="addCertification()"></p-button>
+  </ng-template>
+</p-dialog>

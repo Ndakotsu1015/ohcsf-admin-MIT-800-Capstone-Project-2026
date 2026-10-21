@@ -1,0 +1,39 @@
+<div class="layout-topbar bg-green-700">
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button"
+    style="margin-right: 5px; color: white; outline: none; box-shadow: none; background: transparent;"
+    (click)="layoutService.onMenuToggle()">
+      <i class="pi pi-bars"></i>
+</button>
+
+       <div class="flex justify-content-center" >
+          <div class="ohcsf-logo" style="margin-right: 5px;">
+            <img src="../../assets/LOGO.png" alt="OHCSF Logo" />
+          </div>
+          <br>
+            <div class="ohcsf-text" style="width: 600px; padding-top: 3%; color: white; font-size: 14px;">
+              <strong> OFFICE OF THE HEAD OF THE CIVIL SERVICE OF THE FEDERATION
+                <br>
+              </strong>
+              <b class="text text-center mb-5"> Deployment Management System</b>
+            </div>
+
+          </div>
+
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        <button class="p-link layout-topbar-button" style="color: white; background: transparent;">
+            <i class="pi pi-bell"></i>
+            <span>Calendar</span>
+        </button>
+        <button class="p-link layout-topbar-button" style="color: white; background: transparent;">
+            <i class="pi pi-user"></i>
+            <span>Profile</span>
+        </button>
+
+
+    </div>
+</div>

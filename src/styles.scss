@@ -1,0 +1,180 @@
+/* You can add global styles to this file, and also import other style files */
+
+$gutter: 1rem; //for primeflex grid system
+@import "assets/layout/styles/layout/layout.scss";
+
+/* PrimeNG */
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+
+/* Demos */
+@import "assets/demo/styles/flags/flags.css";
+@import "assets/demo/styles/badges.scss";
+@import "assets/demo/styles/code.scss";
+
+
+// RESPONSIVE STYLING#########################
+@media (max-width: 768px) {
+    .layout-topbar{
+        width: 100% !important;
+        left: 0;
+    }
+
+    .login-image{
+        display: none !important;
+    }
+
+    .login-form{
+        padding:2% !important;
+    }
+
+    .logo{
+        margin:0 !important;
+    }
+}
+
+.text-red{
+    color: red !important;
+}
+
+.layout-wrapper {
+    display: flex;
+    height: 100vh !important
+    ; /* Full height */
+    // overflow: hidden;
+}
+
+.large-icon i{
+    font-size: 1rem !important;
+}
+.small-icon i{
+    font-size: 0.5rem !important;
+}
+
+.sub-menu i{
+    // margin: 1rem !important;
+}
+.layout-sidebar {
+    width: 15%; 
+    height: 100vh; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.bottom{
+    align-self: baseline;
+}
+
+.layout-main-container {
+    margin-left: 260px; /* Same as sidebar width */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+.ohcsf-banner {
+    display: flex;
+    align-items: center;
+    background-color: #024b1c; /* Dark green */
+    color: white;
+    padding: 10px;
+    // border-radius: 5px;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .ohcsf-text {
+    font-size: 1rem;
+    // font-weight: bold;
+  }
+  
+  .ohcsf-logo img {
+    height: 50px; /* Adjust as needed */
+  }
+  
+.layout-main {
+
+   /* Adjust spacing */
+}
+
+/* Adjust Topbar */
+.layout-topbar {
+    width: 100% !important;
+    height: 60px; 
+    position: fixed;
+    top: 0;
+    right: 0 !important;
+    z-index: 1001;
+    transition: left 0.3s ease-in-out;
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: #fff; 
+}
+
+
+
+.login-container {
+    display: flex;
+    height: 100vh;
+    flex-wrap: wrap;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo img {
+    width: 200px;
+    margin:auto;
+}
+
+.login-panel {
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.p-button{
+    width: 100%;
+}
+
+.login-image img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+}
+
+.login-btn {
+    justify-content: center;
+    margin-top: 2% !important;
+}
+
+.forgot-password {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: green;
+}
+

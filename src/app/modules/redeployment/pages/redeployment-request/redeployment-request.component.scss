@@ -1,0 +1,55 @@
+:host ::ng-deep {
+    .employee-request-dialog .p-dialog-header {
+      background: #f8f9fa;
+      border-bottom: 1px solid #e9ecef;
+    }
+    
+    .employee-photo {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #ffffff;
+    }
+    
+    .employee-photo-container {
+      padding: 0.5rem;
+      background: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .request-panel .p-panel-header, 
+    .employee-panel .p-panel-header, 
+    .organization-panel .p-panel-header {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 6px 6px 0 0;
+    }
+    
+    .request-panel .p-panel-content, 
+    .employee-panel .p-panel-content, 
+    .organization-panel .p-panel-content {
+      padding: 1.5rem;
+      border-radius: 0 0 6px 6px;
+    }
+    
+    .organization-path {
+      background-color: #f8f9fa;
+      font-size: 0.875rem;
+    }
+    
+    .organization-path span {
+      font-weight: 500;
+    }
+    
+    .p-tag {
+      padding: 0.5rem 0.75rem;
+    }
+    
+    .rejection-dialog .p-dialog-header {
+      background: #f8f9fa;
+    }
+  }

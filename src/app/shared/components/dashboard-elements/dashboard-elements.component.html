@@ -1,0 +1,29 @@
+<div class="px-8">
+    <div class="row match-height">
+        <!-- Average Sessions Card -->
+        <div
+            class="chart-container grid"
+            style="width: 100%; display: flex; justify-content: space-between"
+        >
+        <ng-container *ngFor="let item of data.data; index as i">
+          <div
+                class="chart lg:col-{{ item.column_width }}"
+                style="
+
+                    border: 0.5px solid grey;
+                    border-radius: 10px;
+                    padding: 1%;
+                "
+            >
+                <h5> {{ item.chart_title }}</h5>
+                <p-chart
+                    type="{{item.chart_type}}"
+                    [data]="item.data"
+                ></p-chart>
+            </div>
+
+        </ng-container>
+
+        </div>
+    </div>
+</div>

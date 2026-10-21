@@ -1,0 +1,64 @@
+<p-panel header="Agency List">
+    <!-- Search and Filter bar -->
+    <div class="flex align-items-center gap-1 mb-3">
+        <div class="p-input-icon-left mr-3 !w-[80%]" style="width: 80%">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" [(ngModel)]="globalFilterValue"
+                   (input)="applyFilter()" placeholder="Search"
+                   class="p-inputtext w-full" />
+                </div>
+                <p-button icon="pi pi-plus" label="Add New" iconPos="right" routerLink="/admin/dashboard/settings/agency-form" />
+
+    </div>
+
+    <!-- Data Table -->
+    <p-table #dt [value]="filteredAgencies" [rows]="10" [paginator]="true"
+             [globalFilterFields]="['name', 'ministry_id']"
+             [tableStyle]="{'min-width': '5rem'}" [rowHover]="true"
+             [loading]="loading" responsiveLayout="scroll">
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="id">S/No <p-sortIcon field="id"></p-sortIcon></th>
+                <th pSortableColumn="ministry_id">Ministry Name <p-sortIcon field="ministry_id"></p-sortIcon></th>
+                <th></th>
+                <th pSortableColumn="name">Agency Name <p-sortIcon field="name"></p-sortIcon></th>
+                <th>Action</th>
+                <th></th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-agency>
+            <tr>
+                <td>{{ agency.id}}</td>
+                <td>{{ getMinistryName(agency.ministry_id) }}</td>
+                <td></td>
+                <td>{{ agency.name }}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-success p-button-sm"
+                            pTooltip="View Details" tooltipPosition="top"
+                            (click)="viewDetails(agency)">
+                    </button>
+                </td>
+                <td>
+                    <button pButton pRipple class="p-button-danger p-button-sm"
+                            (click)="deleteAgency(agency)">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4" class="text-center">No agency records found.</td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="paginatorleft">
+            <p-button type="button" icon="pi pi-refresh" styleClass="p-button-text"
+                      (click)="getAgency()"></p-button>
+        </ng-template>
+
+    </p-table>
+</p-panel>

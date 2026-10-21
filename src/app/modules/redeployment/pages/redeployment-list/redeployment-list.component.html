@@ -1,0 +1,164 @@
+<p-toast></p-toast>
+<div class="px-8">
+    <p-panel header="Proposed ReDeployment List">
+
+    <!-- Search and Filter bar -->
+    <div class="flex align-items-center justify-content-between gap-1 mb-3">
+      <div class="col-6 flex justify-content-between">
+
+        <div class="p-input-icon-left mr-3 !w-[80%]" style="width: 80%">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" [(ngModel)]="globalFilterValue" (input)="applyGlobalFilter()"
+            placeholder="Search" class="p-inputtext w-full" />
+
+
+          </div>
+          <p-button (onClick)="op.toggle($event)" icon="pi pi-filter" label="Filter" />
+          <p-overlayPanel #op>
+            <form [formGroup]="filterForm">
+              <div class="flex flex-column gap-3 w-25rem">
+                <div>
+                  <span class="font-medium text-900 block mb-2">Ministries</span>
+                  <p-dropdown id="ministry_id" (onChange)="selectedMinistryAgency($event.value)"
+                    [options]="ministryOptions" required placeholder="Select Ministry" formControlName="ministry_id"
+                    optionLabel="name" [style]="{'width':'100%'}" [filter]="true" optionValue="id"></p-dropdown>
+                </div>
+                <div>
+                  <span class="font-medium text-900 block mb-2">Agencies</span>
+                  <p-dropdown id="agency_id" [options]="agencyOptions" placeholder="Select Agency" optionValue="id"
+                    formControlName="agency_id" optionLabel="name" [style]="{'width':'100%'}"
+                    [filter]="true"></p-dropdown>
+                </div>
+                <div>
+                  <span class="font-medium text-900 block mb-2">Location</span>
+                  <p-dropdown id="branch_id" [options]="branchOptions"
+                    (onChange)="selectedBranchDepartment($event.value)" required placeholder="Select Location"
+                    formControlName="branch_id" [style]="{'width':'100%'}" optionLabel="name"
+                    optionValue="id"></p-dropdown>
+                </div>
+                <div>
+                  <span class="font-medium text-900 block mb-2">Department</span>
+                  <p-dropdown id="department_id" [options]="departmentOptions"
+                    (onChange)="selectedDepartmentDivision($event.value)" placeholder="Select Department"
+                    formControlName="department_id" [style]="{'width':'100%'}" optionLabel="name"
+                    optionValue="id"></p-dropdown>
+                </div>
+                <div>
+                  <span class="font-medium text-900 block mb-2">Division</span>
+                  <p-dropdown id="division_id" [options]="divisionOptions" placeholder="Select Division"
+                    [style]="{'width':'100%'}" formControlName="division_id" optionLabel="name"
+                    optionValue="id"></p-dropdown>
+                </div>
+                <div>
+                  <span class="font-medium text-900 block mb-2">Unit</span>
+                  <p-dropdown id="unit_id" [options]="unitOptions" required formControlName="unit_id"
+                    placeholder="Select Unit" [style]="{'width':'100%'}" optionLabel="name"
+                    optionValue="id"></p-dropdown>
+                </div>
+                <div>
+                  <span class="font-medium text-900 block mb-2">Cadre</span>
+                  <p-dropdown id="cadre " (onChange)="getGradeLevel($event.value)" [options]="cadresOptions" required
+                    formControlName="cadre" placeholder="Select Cadre" [style]="{'width':'100%'}" optionLabel="name"
+                    optionValue="value"></p-dropdown>
+                </div>
+                <div>
+                  <span class="font-medium text-900 block mb-2">Grade
+                    Level</span>
+                  <p-dropdown id="grade_level" [options]="gradeLevelOptions" required formControlName="grade_level"
+                    placeholder="Select Grade Level" [style]="{'width':'100%'}" optionLabel="name"
+                    optionValue="value"></p-dropdown>
+                </div>
+                <div>
+                  <span class="font-medium text-900 block mb-2">Gender</span>
+                  <p-dropdown id="gender" [options]="genderOptions" required formControlName="gender"
+                    placeholder="Select Gender" [style]="{'width':'100%'}" optionLabel="name"
+                    optionValue="value"></p-dropdown>
+                </div>
+                <div class="col-12 flex justify-content-end gap-2 mt-4">
+                  <p-button label="Submit" icon="pi pi-check" (onClick)="op.toggle($event)"
+                    (click)="onSubmit()"></p-button>
+                </div>
+              </div>
+            </form>
+          </p-overlayPanel>
+          <p-button (onClick)="resetFilter()" icon="pi pi-times" styleClass="p-button-outlined" label="Cancel" />
+      </div>
+
+      <div class="col-3">
+        <div class="flex ml-auto  justify-content-end col-9">
+
+          <button pButton pRipple label="Approve Selected" icon="pi pi-check-circle"
+            (click)="approveSelected()" class="p-button-success p-button-sm"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Table -->
+    <p-table #dt [value]="filteredDeployments" [rows]="10" [paginator]="true"
+      [globalFilterFields]="['IPPIS_no', 'empNo', 'full_name', 'mda', 'branch', 'department', 'division', 'cadre', 'gradeLevel']"
+      [tableStyle]="{'min-width': '75rem'}" [rowHover]="true" [loading]="loading" responsiveLayout="scroll"
+      [(selection)]="selectedDeployments">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
+          <th pSortableColumn="ippis">IPPIS NO <p-sortIcon field="ippis"></p-sortIcon></th>
+          <th pSortableColumn="empNo">Emp No <p-sortIcon field="empNo"></p-sortIcon></th>
+          <th pSortableColumn="mda">MDA's <p-sortIcon field="mda"></p-sortIcon></th>
+          <th pSortableColumn="full_name">Full Name <p-sortIcon field="full_name"></p-sortIcon></th>
+          <th pSortableColumn="gender">Gender </th>
+          <!-- <th pSortableColumn="branch">Branch <p-sortIcon field="branch"></p-sortIcon></th> -->
+          <th pSortableColumn="phone_number">Phone Number</th>
+          <th pSortableColumn="department">Department <p-sortIcon field="department"></p-sortIcon></th>
+          <th pSortableColumn="cadre">Cadre <p-sortIcon field="cadre"></p-sortIcon></th>
+          <th pSortableColumn="designation">Designation <p-sortIcon field="designation"></p-sortIcon></th>
+          <!-- <th pSortableColumn="counter">No. of Deployments</th> -->
+          <th>Action</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-deployment>
+        <tr>
+          <td>
+            <p-tableCheckbox [value]="deployment" />
+        </td>
+          <td>{{ deployment.employee?.ippis_no }}</td>
+          <td>{{ deployment.employee?.employee_no }}</td>
+          <td *ngIf="!deployment.unit?.division?.department?.branch?.agency">{{
+            deployment.unit?.division?.department?.branch?.ministry?.name }}</td>
+          <td *ngIf="deployment.unit?.division?.department?.branch?.agency">{{
+            deployment.unit?.division?.department?.branch?.agency?.name }}</td>
+          <!-- Use optional chaining (?) to prevent errors if any part of the chain is undefined -->
+          <td>
+            {{ deployment.employee?.title }}
+            {{ deployment.employee?.first_name }}
+            {{ deployment.employee?.middle_name }}
+            {{ deployment.employee?.last_name }}
+          </td>
+          <td>{{ deployment.employee?.gender }}</td>
+          <td>{{ deployment.employee?.phone_number }}</td>
+          <td>{{ deployment.unit?.division?.department?.name }}</td>
+          <td>{{ deployment.cadre.name }}</td>
+          <td>{{ deployment.designation?.name }}</td>
+          <!-- <td>{{ deployment.length }}</td> -->
+          <td>
+            <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-success p-button-sm"
+              (click)="viewEmployeeDetails(deployment.id)" pTooltip="View Details" tooltipPosition="top">
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="11" class="text-center">No employee records found.</td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="paginatorleft">
+        <p-button type="button" icon="pi pi-refresh" styleClass="p-button-text" (click)="loadEmployees()"></p-button>
+      </ng-template>
+    </p-table>
+  </p-panel>
+
+</div>

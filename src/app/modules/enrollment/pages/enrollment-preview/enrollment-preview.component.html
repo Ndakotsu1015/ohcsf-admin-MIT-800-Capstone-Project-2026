@@ -1,0 +1,245 @@
+<p-dialog 
+  [(visible)]="visible" 
+  [modal]="true" 
+  [dismissableMask]="true"
+  [resizable]="false"
+  [draggable]="false"
+  [style]="{width: '90vw', maxWidth: '1000px'}"
+  header="Review Information"
+  (onHide)="onHide()"
+  styleClass="enrollment-preview-dialog">
+
+  <div class="preview-container p-3">
+    <!-- Header with photo -->
+    <div class="grid">
+      <div class="col-12 flex align-items-center justify-content-center mb-4">
+        <div class="text-center">
+          <img 
+            [src]="profile_photo + formData?.passport_file" 
+            *ngIf="formData?.passport_file"
+            alt="Passport Photo" 
+            class="border-round-xl shadow-4" 
+            style="max-width: 150px; max-height: 150px; object-fit: cover;" 
+          />
+          <div *ngIf="!formData?.passport_file" class="flex align-items-center justify-content-center border-round-xl bg-primary-100" style="width: 150px; height: 150px;">
+            <i class="pi pi-user text-6xl text-primary-500"></i>
+          </div>
+          <h2 class="text-xl font-semibold mt-3 mb-0">
+            {{ formData?.title }} {{ formData?.first_name }} {{ formData?.middle_name }} {{ formData?.last_name }}
+          </h2>
+          <div class="text-color-secondary">{{ formData?.IPPIS_no }} • {{ formData?.employee_no }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Sections -->
+    <div class="grid">
+      <!-- Personal Information -->
+      <div class="col-12 md:col-12">
+        <p-card styleClass="h-full">
+          <ng-template pTemplate="header">
+            <div class="px-4 py-3 bg-primary-50">
+              <div class="flex align-items-center">
+                <i class="pi pi-user-plus mr-2 text-primary"></i>
+                <h3 class="m-0 text-primary font-medium">Personal Information</h3>
+              </div>
+            </div>
+          </ng-template>
+          
+          <div class="grid">
+            <div class="col-6 mb-3">
+              <div class="text-500 font-medium">Date of Birth</div>
+              <div>{{ formatDate(formData?.date_of_birth) }}</div>
+            </div>
+            
+            <div class="col-6 mb-3">
+              <div class="text-500 font-medium">Gender</div>
+              <div>{{ formData?.gender }}</div>
+            </div>
+            
+            <div class="col-6 mb-3">
+              <div class="text-500 font-medium">Marital Status</div>
+              <div>{{ formData?.marital_status }}</div>
+            </div>
+            
+            <div class="col-6 mb-3">
+              <div class="text-500 font-medium">Nationality</div>
+              <div>{{ formData?.nationality }}</div>
+            </div>
+            
+            <div class="col-6 mb-3">
+              <div class="text-500 font-medium">NIN</div>
+              <div>{{ formData?.nin }}</div>
+            </div>
+            
+            <div class="col-6 mb-3">
+              <div class="text-500 font-medium">Phone</div>
+              <div>{{ formData?.phone_number }}</div>
+            </div>
+            
+            <div class="col-6 mb-3">
+              <div class="text-500 font-medium">Email</div>
+              <div>{{ formData?.email_address }}</div>
+            </div>
+          </div>
+        </p-card>
+      </div>
+      
+      <!-- Address Information -->
+      <div class="col-12 md:col-12">
+        <p-card styleClass="h-full">
+          <ng-template pTemplate="header">
+            <div class="px-4 py-3 bg-primary-50">
+              <div class="flex align-items-center">
+                <i class="pi pi-map-marker mr-2 text-primary"></i>
+                <h3 class="m-0 text-primary font-medium">Address Information</h3>
+              </div>
+            </div>
+          </ng-template>
+          
+          <div class="grid">
+            <div class="col-6 mb-3">
+              <div class="text-500 font-medium">Residential Address</div>
+              <div>{{ formData?.residential_address }}</div>
+            </div>
+            
+            <div class="col-6 mb-3">
+              <div class="text-500 font-medium">Permanent Address</div>
+              <div>{{ formData?.permanent_address }}</div>
+            </div>
+          </div>
+        </p-card>
+      </div>
+      
+      <!-- Employment Information -->
+      <div class="col-12 md:col-12">
+        <p-card styleClass="h-full">
+          <ng-template pTemplate="header">
+            <div class="px-4 py-3 bg-primary-50">
+              <div class="flex align-items-center">
+                <i class="pi pi-briefcase mr-2 text-primary"></i>
+                <h3 class="m-0 text-primary font-medium">Deployment Information</h3>
+              </div>
+            </div>
+          </ng-template>
+          
+          <div class="grid">
+            <div class="col-6 mb-3">
+              <div class="text-500 font-medium">Cadre</div>
+              <div>{{ formData?.cadre }}</div>
+            </div>
+            
+            <div class="col-6 mb-3">
+              <div class="text-500 font-medium">Grade Level</div>
+              <div>{{ formData?.grade_level }}</div>
+            </div>
+            
+            <div class="col-6 mb-3">
+              <div class="text-500 font-medium">Ministry</div>
+              <div>{{ formData?.ministry }}</div>
+            </div>
+            
+            <div class="col-6 mb-3">
+              <div class="text-500 font-medium">Agency</div>
+              <div>{{ formData?.agency }}</div>
+            </div>
+            
+            <div class="col-6 mb-3">
+              <div class="text-500 font-medium">Branch</div>
+              <div>{{ formData?.branch }}</div>
+            </div>
+            
+            
+            <div class="col-6 mb-3">
+                <div class="text-500 font-medium">Department</div>
+                <div>{{ formData?.department }}</div>
+              </div>
+            
+              <div class="col-6 mb-3">
+                <div class="text-500 font-medium">Division</div>
+                <div>{{ formData?.division }}</div>
+              </div>
+              <div class="col-6 mb-3">
+                <div class="text-500 font-medium">Request Type</div>
+                <div>{{ formData?.request_type }}</div>
+              </div>
+          </div>
+        </p-card>
+      </div>
+      
+      <!-- Qualifications -->
+      <div class="col-12 md:col-6">
+        <p-card styleClass="h-full">
+          <ng-template pTemplate="header">
+            <div class="px-4 py-3 bg-primary-50">
+              <div class="flex align-items-center">
+                <i class="pi pi-book mr-2 text-primary"></i>
+                <h3 class="m-0 text-primary font-medium">Qualifications</h3>
+              </div>
+            </div>
+          </ng-template>
+          
+          <div *ngIf="formData?.qualification && formData?.qualification.length > 0; else noQualifications">
+            <div *ngFor="let qual of formData?.qualification; let i = index" class="mb-3 p-3" [ngClass]="{'border-bottom-1 border-300': i !== formData?.qualification?.length - 1}">
+              <div class="flex justify-content-between">
+                <div>
+                  <p class="font-medium m-0">{{ qual.qualification | uppercase }}</p>
+                  <p class="m-0 text-color-secondary">{{ qual.institution }}</p>
+                </div>
+                <div class="text-right">
+                  <p-badge [value]="formatDate(qual.year, true)" severity="success"></p-badge>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-template #noQualifications>
+            <div class="p-4 text-center text-color-secondary">
+              <i class="pi pi-info-circle mb-2 text-2xl"></i>
+              <p class="m-0">No qualifications added</p>
+            </div>
+          </ng-template>
+        </p-card>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <p-card styleClass="h-full">
+          <ng-template pTemplate="header">
+            <div class="px-4 py-3 bg-primary-50">
+              <div class="flex align-items-center">
+                <i class="pi pi-book mr-2 text-primary"></i>
+                <h3 class="m-0 text-primary font-medium">Certifications</h3>
+              </div>
+            </div>
+          </ng-template>
+          
+          <div *ngIf="formData?.certification && formData?.certification.length > 0; else noCertifications">
+            <div *ngFor="let cert of formData?.certification; let i = index" class="mb-3 p-3" [ngClass]="{'border-bottom-1 border-300': i !== formData?.certifaction?.length - 1}">
+              <div class="flex justify-content-between">
+                <div>
+                  <p class="font-medium m-0">{{ cert.certification }}</p>
+             
+                </div>
+                <div class="text-right">
+                  <p-badge [value]="formatDate(cert.year, true)" severity="success"></p-badge>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-template #noCertifications>
+            <div class="p-4 text-center text-color-secondary">
+              <i class="pi pi-info-circle mb-2 text-2xl"></i>
+              <p class="m-0">No certifcations added</p>
+            </div>
+          </ng-template>
+        </p-card>
+      </div>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-content-end gap-2">
+      <p-button label="Edit Information" icon="pi pi-pencil" styleClass="p-button-outlined" (onClick)="cancelSubmission()"></p-button>
+      <p-button label="Confirm & Submit" icon="pi pi-check" (onClick)="confirmSubmission()"></p-button>
+    </div>
+  </ng-template>
+</p-dialog>

@@ -1,0 +1,58 @@
+// enrollment.component.scss
+:host ::ng-deep {
+    .p-panel-header {
+      background: var(--primary-color);
+      color: var(--primary-color-text);
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+    
+    .p-panel .p-panel-content {
+      padding: 1rem;
+    }
+    
+    .photo-upload {
+      background-color: #f8f9fa;
+      border: 1px dashed #ced4da;
+      transition: all 0.3s;
+      
+      &:hover {
+        border-color: var(--primary-color);
+      }
+    }
+    
+    .p-inputtext:enabled:focus {
+      box-shadow: 0 0 0 1px var(--primary-color-lighter, rgba(0, 100, 0, 0.1));
+    }
+    
+    .text-primary {
+      color: var(--primary-color);
+    }
+    
+    .p-button.p-button-outlined {
+      background-color: transparent;
+      color: var(--primary-color);
+      border: 1px solid;
+    }
+    
+    .p-button.p-button-outlined:hover {
+      background: rgba(var(--primary-color-rgb, 0, 120, 0), 0.04);
+      color: var(--primary-color);
+      border: 1px solid;
+    }
+    
+    .p-dropdown {
+      width: 100%;
+    }
+    
+    .p-calendar {
+      width: 100%;
+    }
+    
+    // Responsive adjustments
+    @media screen and (max-width: 768px) {
+      .p-panel .p-panel-content {
+        padding: 1rem;
+      }
+    }
+  }
